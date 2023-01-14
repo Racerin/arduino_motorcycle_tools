@@ -8,23 +8,48 @@
 #ifndef Prioritizer_h
 #define Prioritizer_h
 
-#include "Arduino.h"
-// #include <Arduino>
+// In the future, use byte for int to reduce variables size.
+
+const int N_PRIORITY = 10;   // This is the length limit of how many functions to add for now. Increase at your own discression (memory limit)
+
+typedef void(*FunctionPointer)();
+
+
+class Priority{
+	private:
+	public:
+		FunctionPointer fptr;	// Pointer of function to call when priority to take action
+		int lvl;				// Priority with lower level is given leeway over others given there isn't enough time for next priority to execute.
+		int max_dt;				// The maximum possible time needed to run the function
+		int start_time;					// The time until the next function activation.
+		Priority();
+		Priority(FunctionPointer fptr, int level, int maximum_dt=0, int start_time=0);
+		// Priority(FunctionPointer fptr, int level, int maximum_dt=0, int start_time=0);
+		int end_time();
+		Priority higher_priority(Priority other);
+};
+
 
 class Prioritizer
 {
     public:
         Prioritizer();
-        void add_priority_function(void (*func)(), int level);
-        void add_priority_function(void (*func)(), int level, int def_time);
-        void timed_function(void (*func)());
+		long get_time();
+		void wait(int duration);
+        int add_priority_function(FunctionPointer function_pointer, int level, int start_time);
+        void timed_function(FunctionPointer function_pointer);
+		int run_highest_priority();
         void loop();
         int time_factor = 2;
+		volatile bool do_loop=false;
     private:
-        int _dt;
-        // c++ array of function pointers
-        void (* _arr_func [])() = {};
-        int n_arr_func = 0;
-}
+		int _start_time;			// Start time
+		int _end_time;				// End time
+		int _delta_process_time;	// Time taken to find priority
+		int _delta_time_until_function;	// Time taken to find priority
+        int _delta_time_priority;			// Delta time
+        int priority_counter = 0;
+        Priority _priorities[N_PRIORITY];
+};
 
 #endif
