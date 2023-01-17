@@ -8,9 +8,8 @@
 #ifndef Prioritizer_h
 #define Prioritizer_h
 
-// In the future, use byte for int to reduce variables size.
+#define INT_MAX 32767	// This value was obtained from https://learn.microsoft.com/en-us/cpp/c-language/cpp-integer-limits?view=msvc-170
 
-const int N_PRIORITY = 10;   // This is the length limit of how many functions to add for now. Increase at your own discression (memory limit)
 
 typedef void(*FunctionPointer)();
 
@@ -19,7 +18,7 @@ class Priority{
 	private:
 	public:
 		FunctionPointer fptr;	// Pointer of function to call when priority to take action
-		int lvl;				// Priority with lower level is given leeway over others given there isn't enough time for next priority to execute.
+		int lvl=INT_MAX;		// Priority with lower level is given leeway over others given there isn't enough time for next priority to execute.
 		int max_dt;				// The maximum possible time needed to run the function
 		int start_time;					// The time until the next function activation.
 		Priority();
@@ -33,6 +32,7 @@ class Priority{
 class Prioritizer
 {
     public:
+		const static N_PRIORITY = 10;	// This is the length limit of how many functions to add for now. Increase at your own discression (memory limit)
         Prioritizer();
 		long get_time();
 		void wait(int duration);

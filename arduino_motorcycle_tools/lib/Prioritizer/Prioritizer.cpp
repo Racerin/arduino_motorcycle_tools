@@ -36,10 +36,10 @@ void Prioritizer::wait(int duration){
 
 int Prioritizer::add_priority_function(FunctionPointer function_pointer, int level, int start_time)
 {
-    if (this->priority_counter < N_PRIORITY){
+    if (priority_counter < Prioritizer::N_PRIORITY){
         Priority new_priority(function_pointer, level, 0, start_time);
-        this->_priorities[this->priority_counter] = new_priority;
-        this->priority_counter ++;
+        _priorities[priority_counter] = new_priority;
+        priority_counter ++;
     }
     else {return -1;}
     return 0;
