@@ -1,5 +1,6 @@
-#include <Arduino.h>
 #include <unity.h>
+#include <Arduino.h>
+#include <Prioritizer.h>
 
 void setUp(void){}
 
