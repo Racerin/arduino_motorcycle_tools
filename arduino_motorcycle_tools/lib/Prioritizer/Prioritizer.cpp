@@ -10,7 +10,7 @@ Priority::Priority(FunctionPointer function_pointer, int level, int maximum_dt, 
 int Priority::end_time()
 {
     // Returns the estimated time for the function to end
-    start_time + max_dt;
+    return start_time + max_dt;
 }
 
 Priority Priority::higher_priority(Priority other)

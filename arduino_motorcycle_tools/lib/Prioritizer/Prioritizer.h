@@ -8,7 +8,7 @@
 #ifndef Prioritizer_h
 #define Prioritizer_h
 
-#define INT_MAX 32767	// This value was obtained from https://learn.microsoft.com/en-us/cpp/c-language/cpp-integer-limits?view=msvc-170
+#include "limits.h"
 
 
 typedef void(*FunctionPointer)();

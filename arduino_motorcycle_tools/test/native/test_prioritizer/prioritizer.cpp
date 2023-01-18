@@ -28,7 +28,7 @@ void test_create_common_priority()
     Priority prty = Priority();
 }
 
-void main()
+int main()
 {
     UNITY_BEGIN();
 
@@ -41,4 +41,6 @@ void main()
 
     // End unit tests
     UNITY_END();
+    
+    return 0;
 }
