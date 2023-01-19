@@ -8,7 +8,7 @@
 #ifndef Prioritizer_h
 #define Prioritizer_h
 
-#define INT_MAX 32767	// This value was obtained from https://learn.microsoft.com/en-us/cpp/c-language/cpp-integer-limits?view=msvc-170
+#include "limits.h"
 
 
 typedef void(*FunctionPointer)();
@@ -32,7 +32,7 @@ class Priority{
 class Prioritizer
 {
     public:
-		const static N_PRIORITY = 10;	// This is the length limit of how many functions to add for now. Increase at your own discression (memory limit)
+		const static int N_PRIORITY = 10;	// This is the length limit of how many functions to add for now. Increase at your own discression (memory limit)
         Prioritizer();
 		long get_time();
 		void wait(int duration);
