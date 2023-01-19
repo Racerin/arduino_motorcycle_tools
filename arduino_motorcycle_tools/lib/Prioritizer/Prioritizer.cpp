@@ -3,6 +3,8 @@
 #include "Prioritizer.h"
 
 
+Priority::Priority(){};
+
 Priority::Priority(FunctionPointer function_pointer, int level, int maximum_dt, int start_time) \
 : fptr(), lvl(level), max_dt(maximum_dt), start_time(start_time) {};
 // Initializer List - https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
@@ -74,7 +76,7 @@ int Prioritizer::run_highest_priority()
     _delta_time_priority = _start_time - _end_time;
     // Set new delta time (if new record high)
     if (best_priority.max_dt > _delta_time_priority) { best_priority.max_dt = _delta_time_priority*time_factor; }
-}
+};
 
 void Prioritizer::loop()
 {
