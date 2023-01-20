@@ -1,6 +1,9 @@
 /* 
     Prioritizer.h - Library for actioning functions of higher priority
-        (lower level) first.
+        (lower level) first. Priority has a start time and is sheduled based on
+		history of duration, start time, and rank.
+		Aim is to make it function faster than FreeRTOS asit has a lesser
+		functionality.
     Created by Darnell Baird, January 12th, 2023.
     Released into the public domain.
  */
@@ -11,19 +14,23 @@
 #include "limits.h"
 
 
-typedef void(*FunctionPointer)();
+// typedef void(*FunctionPointer)();
+// Alias
+using FunctionPointer = void(*)();
 
 
 class Priority{
 	private:
+		bool to_loop=false;
 	public:
 		FunctionPointer fptr;	// Pointer of function to call when priority to take action
 		int lvl=INT_MAX;		// Priority with lower level is given leeway over others given there isn't enough time for next priority to execute.
 		int max_dt;				// The maximum possible time needed to run the function
 		int start_time;					// The time until the next function activation.
+		int late_tolerance=0;	// runs the job even though it may start late once within variable's time
 		Priority();
-		Priority(FunctionPointer fptr, int level, int maximum_dt=0, int start_time=0);
-		// Priority(FunctionPointer fptr, int level, int maximum_dt=0, int start_time=0);
+		// Priority(FunctionPointer fptr, int level, int maximum_dt=0, int start_time=0, bool loop);
+		Priority(void * fptr, int level, int maximum_dt=0, int start_time=0, bool loop);
 		int end_time();
 		Priority higher_priority(Priority other);
 };
@@ -36,7 +43,7 @@ class Prioritizer
         Prioritizer();
 		long get_time();
 		void wait(int duration);
-        int add_priority_function(FunctionPointer function_pointer, int level, int start_time);
+		int add_priority(Priority * prty);
         void timed_function(FunctionPointer function_pointer);
 		int run_highest_priority();
         void loop();
