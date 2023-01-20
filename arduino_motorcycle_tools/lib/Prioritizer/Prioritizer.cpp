@@ -5,8 +5,8 @@
 
 Priority::Priority(){};
 
-Priority::Priority(FunctionPointer function_pointer, int level, int maximum_dt, int start_time) \
-: fptr(), lvl(level), max_dt(maximum_dt), start_time(start_time) {};
+Priority::Priority(FunctionPointer function_pointer, int level, int maximum_dt, int start_time, bool loop) \
+: fptr(), lvl(level), max_dt(maximum_dt), start_time(start_time), to_loop(loop) {};
 // Initializer List - https://www.geeksforgeeks.org/when-do-we-use-initializer-list-in-c/
 
 int Priority::end_time()
@@ -36,11 +36,10 @@ void Prioritizer::wait(int duration){
     delay(duration);
 }
 
-int Prioritizer::add_priority_function(FunctionPointer function_pointer, int level, int start_time)
+int Prioritizer::add_priority(Priority * prty)
 {
     if (priority_counter < Prioritizer::N_PRIORITY){
-        Priority new_priority(function_pointer, level, 0, start_time);
-        _priorities[priority_counter] = new_priority;
+        _priorities[priority_counter] = prty;
         priority_counter ++;
     }
     else {return -1;}
@@ -49,7 +48,10 @@ int Prioritizer::add_priority_function(FunctionPointer function_pointer, int lev
 
 int Prioritizer::run_highest_priority()
 {
-    /* Decide and run the next priority/function scheduled. */
+    /* 
+    Decide and run the next priority/function scheduled.
+    Activity Selection Problem (https://en.wikipedia.org/wiki/Activity_selection_problem)
+     */
     // Time checking
     _start_time = get_time();
     // Pick highest priority
